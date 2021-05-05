@@ -166,7 +166,7 @@ EOT;
 		  `expires` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 		  `scope` varchar(2000) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
 		  PRIMARY KEY (`access_token`)
-		) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+		) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 EOT;
     $pdo->exec($sql);
 
@@ -179,7 +179,7 @@ EOT;
 			  `expires` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 			  `scope` varchar(2000) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
 			  PRIMARY KEY (`authorization_code`)
-			) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+			) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 EOT;
     $pdo->exec($sql);
 
@@ -192,7 +192,7 @@ EOT;
 			  `scope` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
 			  `user_id` varchar(80) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
 			  PRIMARY KEY (`client_id`)
-			) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+			) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 EOT;
     $pdo->exec($sql);
 
@@ -207,7 +207,7 @@ EOT;
 			  `subject` varchar(80) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
 			  `public_key` varchar(2000) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
 			  PRIMARY KEY (`client_id`)
-			) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+			) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 EOT;
     $pdo->exec($sql);
     $sql = <<<'EOT'
@@ -218,14 +218,14 @@ EOT;
 			  `expires` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 			  `scope` varchar(2000) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
 			  PRIMARY KEY (`refresh_token`)
-			) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+			) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 EOT;
     $pdo->exec($sql);
     $sql = <<<'EOT'
 			CREATE TABLE IF NOT EXISTS `oauth_scopes` (
 			  `scope` text COLLATE utf8mb4_unicode_ci,
 			  `is_default` tinyint(1) DEFAULT NULL
-			) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+			) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 EOT;
     $pdo->exec($sql);
     $sql = <<<'EOT'
@@ -235,7 +235,7 @@ EOT;
 			  `first_name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
 			  `last_name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
 			  PRIMARY KEY (`username`)
-			) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+			) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 EOT;
     $pdo->exec($sql);
     $sql = <<<'EOT'

@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<!-- saved from url=(0014)about:internet -->
+<html lang="en">
+
+    <head>
+
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="">
+        <meta name="author" content="">
+
+        <link rel='icon' href={{asset('dist/img/favicon.ico')}} type='image/x-icon'/>
+
+        <title>CSWeb</title>
+
+        <!-- Bootstrap Core CSS -->
+        <link href={{asset('bower_components/bootstrap/dist/css/bootstrap.min.css')}} rel="stylesheet">
+
+        <!-- MetisMenu CSS -->
+        <link href={{asset('bower_components/metisMenu/dist/metisMenu.min.css')}} rel="stylesheet">
+
+        <!-- DataTables CSS -->
+        <link href={{asset('bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.css')}} rel="stylesheet">
+
+        <!-- Custom CSS -->
+        <link href={{asset('dist/css/sb-admin-2.css')}} rel="stylesheet">
+
+        <!-- Custom Fonts -->
+        <link href={{asset('bower_components/font-awesome/css/font-awesome.min.css')}} rel="stylesheet" type="text/css">
+
+        <!-- ALW - Custom CSS -->
+        <link href={{asset('dist/css/cspro-styles.css')}} rel="stylesheet">
+
+        <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+        <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+            <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+        <![endif]-->
+
+    </head>
+
+    <body>
+
+
+
+        <div id="wrapper">
+
+            <!-- Navigation -->
+            <nav class="navbar navbar-default navbar-static-top navbar-cspro" role="navigation" style="margin-bottom: 0">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="{{ path('dashboard') }}">
+                        <img alt="Brand" src="./dist/img/logo.png">
+                    </a>
+                    <p class="title-text-cspro">CSWeb</p>
+                    <p class="version-text-cspro">{{ csproVersion }}</p>
+                </div>
+                <!-- /.navbar-header -->
+                {% set userinfo = app.request.cookies.has('username') ? app.request.cookies.get('username')  : null %}
+                <ul class="nav navbar-top-links navbar-right cspro">
+                    <li class="nav-text-cspro nav-li-a-placeholder-cspro">
+                        {{ userinfo }}
+                    </li>
+                    <li>
+                        <a href="{{ path('logout') }}" class="nav-text-cspro"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+                    </li>
+                </ul>
+
+                <div class="navbar-default sidebar" role="navigation">
+                    <div class="sidebar-nav navbar-collapse">
+                        <ul class="nav" id="side-menu">
+                            {% if is_granted('ROLE_DATA_ALL') == true %}
+                                <li>
+                                    <a href="{{ path('dashboard') }}"><i class="fa fa-database fa-fw"></i> Data</a>
+                                </li>
+                            {% endif %}
+                            {% if is_granted('ROLE_REPORTS_ALL') == true %}
+                                <li>
+                                    <a href="{{ path('sync-report') }}"><i class="fa fa-table fa-fw"></i> Sync Report<span
+                                            class="fa arrow"></span></a>
+                                </li>
+                            {% endif %}
+                            {% if is_granted('ROLE_APPS_ALL') == true %}
+                                <li>
+                                    <a href="{{ path('apps') }}"><i class="fa fa-desktop fa-fw"></i> Apps</a>
+                                </li>
+                            {% endif %}
+                            {% if is_granted('ROLE_USERS_ALL') == true %}
+                                <li>
+                                    <a href="{{ path('users') }}"><i class="fa fa-users fa-fw"></i> Users</a>
+                                </li>
+                            {% endif %}
+                            {% if is_granted('ROLE_ROLES_ALL') == true %}
+                                <li>
+                                    <a href="{{ path('roles') }}"><i class="fa fa-user fa-fw"></i> Roles</a>
+                                </li>
+                            {% endif %}
+                            {% if is_granted('ROLE_SETTINGS_ALL') == true %}
+                                <li>
+                                    <a href="#"><i class="fa fa-cog fa-fw"></i> Settings<span
+                                            class="fa arrow"></span></a>
+                                    <ul class="nav nav-second-level">
+                                        <li>
+                                            <a href="{{ path('dataSettings') }}"><i class="fa fa-database fa-fw"></i> Data</a>
+                                        </li>
+                                    </ul>
+                                </li> 
+                            {% endif %}
+                        </ul>
+                    </div>
+                    <!-- /.sidebar-collapse -->
+                </div>
+                <!-- /.navbar-static-side -->
+            </nav>
+
+            <!-- delete app modal Content -->
+            <div id="delete-app-modal" class="modal fade" role="dialog" aria-labelledby="delete-app-modal-label">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title" id="delete-user-modal-title">Delete Application</h4>
+                        </div>
+                        <!-- /.modal-header -->
+                        <div class="modal-body">
+                            <p>Are you sure you want to delete the application? </p>
+                        </div>
+                        <!-- /.modal-body -->
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-danger"  id="delete-button">Yes</button>
+                            <button type="button" class="btn btn-primary" data-dismiss="modal">No</button>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.modal-dialog -->
+            </div>
+            <!-- delete app modal end -->
+            <!-- Page Content -->
+            <div id="page-wrapper">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div id="alert" class="alert-placeholder-cspro alert-margin-cspro">
+                        </div>
+                        <!-- /.alert -->
+                    </div>
+                    <!-- /.col-xs-12 -->
+                </div>
+                <!-- /.row -->
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="panel panel-default">
+                            <!-- ALW - Create margin above panel heading -->
+                            <div class="panel-heading">
+                                <i class="fa fa-desktop fa-fw"></i> Applications
+                            </div>
+                            <!-- /.panel-heading -->
+                            <div class="table-responsive">
+                                <table class="table table-striped table-bordered table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th class="col-xs-3">Name</th>
+                                            <th class="col-xs-5">Description</th>
+                                            <th class="col-xs-3">Build Date</th>
+                                            <th class="col-xs-2">Download</th>
+                                            <th class="col-xs-2">Delete</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for app in apps %}
+                                            <tr data-appname="{{ app.name}}" >
+                                                <td>{{ app.name}}</td>
+                                                <td>{{ app.description}}</td>
+                                                <td>{{ app.buildTime | date("D M j Y G:i") }}</td>
+                                                <td><a href="{{path('downloadApp',{'appname':app.name})}}"><i class="fa fa-download fa-fw"></i></a></td>
+                                                <td><a href="javascript:;" class="delete-button-class"><i class="fa fa-trash-o fa-fw"></i></a></td>
+                                            </tr>
+                                        {% endfor %}
+
+                                    </tbody>
+                                </table>
+                            </div>
+                            <!-- /.table-responsive -->
+                        </div>
+                        <!-- /.panel -->
+                    </div>
+                    <!-- /.col-xs-12 -->
+                </div>
+                <!-- /.row -->
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="alert alert-light" role="alert"><p>To install an application on a mobile device choose <i>Add Application</i> from the menu, choose <i>CSWeb</i> and enter <i>{{ apiUrl }}</i> for the server.</p>
+                            <p>To upload an application to the server use the <i>Deploy Applications</i> tool in CSPro.</p></div>
+                        <!-- /.alert -->
+                    </div>
+                    <!-- /.col-xs-12 -->
+                </div>
+            </div>
+            <!-- /#page-wrapper -->
+
+        </div>
+        <!-- /#wrapper -->
+
+        <!-- jQuery -->
+        <script src={{asset('bower_components/jquery/dist/jquery.min.js')}}></script>
+
+        <!-- Bootstrap Core JavaScript -->
+        <script src={{asset('bower_components/bootstrap/dist/js/bootstrap.min.js')}}></script>
+
+        <!-- Metis Menu Plugin JavaScript -->
+        <script src={{asset('bower_components/metisMenu/dist/metisMenu.min.js')}}></script>
+
+        <!-- DataTables JavaScript -->
+        <script src={{asset('bower_components/datatables/media/js/jquery.dataTables.min.js')}}></script>
+        <script src={{asset('bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js')}}></script>
+
+        <!-- Custom Theme JavaScript -->
+        <script src={{asset('dist/js/sb-admin-2.js')}}></script>
+
+        <!-- Page-Level Scripts -->
+        <script>
+            "use strict";
+            function showAlert(message, alertStyle) {
+                $("#alert").replaceWith("<div id='alert' class='" + alertStyle + " alert-margin-cspro'>" + message + "</div>");
+                $("#alert").show();
+            }
+
+            $(document).ready(function () {
+
+                // Delete app functionality
+                (function () {
+                    var tr;
+
+                    $(".delete-button-class").on("click", function (event) {
+                        tr = $(event.target).closest("tr");
+                        var appName = $(tr).data("appname");
+                        var modalText = 'Are you sure you want to delete the application \"' + appName + '\"?';
+                        $("#delete-app-modal").find('.modal-body').text(modalText);
+                        $("#delete-app-modal").modal("show");
+                    });
+
+                    $("#delete-button").on("click", function (event) {
+                        event.preventDefault();
+                        $("#delete-app-modal").modal("hide");
+                        // get the user name of the nearest row
+                        var appName = $(tr).data("appname");
+                        $.ajax({
+                            type: "DELETE",
+                            url: "{{ url('apps') }}/" + encodeURIComponent(appName),
+                            dataType: "json",
+                            success: function (response) {
+                                if (response.code === 200) {
+                                    var alertMsg = "Application " + appName + " deleted";
+                                    showAlert(alertMsg, "alert alert-success");
+                                    $(tr).remove();
+                                } else {
+                                    var alertMsg = "Failed to delete application " + appName;
+                                    showAlert(alertMsg, "alert alert-danger");
+                                }
+                            },
+                            error: function (response) {
+                                if (response.status === 405) {
+                                    window.location.href = "{{ path('logout') }}";
+                                } else {
+                                    var alertMsg = "Failed to delete application " + appName;
+                                    showAlert(alertMsg, "alert alert-danger");
+                                }
+                            },
+                            failure: function (errMsg) {
+                                alert("error!");
+                            }
+                        });
+                    });
+                })();
+                // Spinner functionality
+                var $body = $("body");
+                $(document).ajaxStart(function (event, request, settings) {
+                    $body.addClass("loading");
+                });
+
+                $(document).ajaxComplete(function (event, request, settings) {
+                    $body.removeClass("loading");
+                });
+
+            });
+        </script>
+        <div id="mainSpinner" class="spinner"><!-- Place at bottom of page --></div>
+    </body>
+
+</html>

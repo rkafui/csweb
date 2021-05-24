@@ -106,7 +106,7 @@ class MySQLDictionarySchemaGenerator {
 
         if ($unique) {
             if ($parentKeyType === self::COLUMN_TYPE_TEXT) {
-                $levelIdTable->addUniqueIndex(array($this->quoteString($parentId)), null, array("lengths" => array(191)));
+                $levelIdTable->addUniqueIndex(array($this->quoteString($parentId)), null, array("lengths" => array(256)));
             } else {
                 $levelIdTable->addUniqueIndex(array($this->quoteString($parentId)));
             }
@@ -203,7 +203,7 @@ class MySQLDictionarySchemaGenerator {
         $casesTable->addColumn($this->quoteString('partial_save_item_occurrence'), "integer", array("notnull" => false, "default" => null));
         $casesTable->addColumn($this->quoteString('partial_save_subitem_occurrence'), "integer", array("notnull" => false, "default" => null));
 
-        $casesTable->addUniqueIndex(array("`id`"), null, array("lengths" => array(191)));
+        $casesTable->addUniqueIndex(array("`id`"), null, array("lengths" => array(256)));
         $casesTable->addIndex(array($this->quoteString('deleted')));
 //notes
         /*     "CREATE TABLE notes ("
@@ -229,11 +229,11 @@ class MySQLDictionarySchemaGenerator {
         $notesTable->addColumn($this->quoteString('content'), "text", array("notnull" => true));
         $notesTable->addColumn($this->quoteString('operator_id'), "text", array("notnull" => true));
         $notesTable->addColumn("`modified_time`", "datetime", array('columnDefinition' => 'timestamp'));
-        $notesTable->addIndex(array($this->quoteString('case_id')), null, array(), array("lengths" => array(191)));
+        $notesTable->addIndex(array($this->quoteString('case_id')), null, array(), array("lengths" => array(256)));
         //DBAL has issues with creating foreign key constraint on text columns with lengths. 
         //not adding for now, if needed add it in the future
 //        $notesTable->addForeignKeyConstraint($this->quoteString('cases'), array($this->quoteString('case_id')), array($this->quoteString('id')),
-//                array("lengths" => array(191,191)), 'notes_cases_fk');
+//                array("lengths" => array(256,256)), 'notes_cases_fk');
 
         /* CREATE TABLE IF NOT EXISTS `cspro_jobs` (
           `id` int(11) unsigned NOT NULL AUTO_INCREMENT,

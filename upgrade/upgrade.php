@@ -242,8 +242,8 @@ EOT;
                     // Get current schema version
                     $dbSchemaVersion = $pdo->query("SELECT `value` FROM `cspro_config` WHERE `name`='schema_version'")->fetchColumn();
                     if($dbSchemaVersion != SCHEMA_VERSION){
-                        $strMsg = "There is no upgrade path available from older versions of CSWeb to CSWeb 7.6. "
-                                . "Click <a href=\"/setup/index.php\">here</a> to configure CSWeb 7.6 using a new database name.";
+                        $strMsg = "There is no upgrade path available from older versions of CSWeb to CSWeb 7.5. "
+                                . "Click <a href=\"/setup/index.php\">here</a> to configure CSWeb 7.5 using a new database name.";
                         echo '<div class="alert alert-danger" role="alert">Error: ' . $strMsg . '</div>';
                         return;
                     }

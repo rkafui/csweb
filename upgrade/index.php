@@ -55,8 +55,8 @@ require_once getApiVersionFilePath();
                     if ($dbSchemaVersion == SCHEMA_VERSION) {
                         echo "The database is up to date.";
                     } else {
-                        $strMsg = "There is no upgrade path available from older versions of CSWeb to CSWeb 7.6. "
-                                . "Click <a href=\"/setup/index.php\">here</a> to configure CSWeb 7.6 using a new database name.";
+                        $strMsg = "There is no upgrade path available from older versions of CSWeb to CSWeb 7.5. "
+                                . "Click <a href=\"/setup/index.php\">here</a> to configure CSWeb 7.5 using a new database name.";
                         echo '<div class="alert alert-danger" role="alert">Error: ' . $strMsg . '</div>';
                         //echo '<p>The database needs to be upgraded from schema version ' . $dbSchemaVersion . ' to version ' . SCHEMA_VERSION . '</p>';
                         //echo '<a href="upgrade.php" class="btn btn-primary pull-left">Upgrade</a>';

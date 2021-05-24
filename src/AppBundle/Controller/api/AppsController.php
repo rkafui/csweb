@@ -61,9 +61,9 @@ class AppsController extends Controller implements ApiTokenAuthenticatedControll
         // Package is a CSPro application bundle which
         // is just a zip archive. This file is copied to the apps
         // directory. The zip archive contains a deployment
-        // spec file named package.json (or .csds for legacy apps).
-        // Extract this file, read the parameters from it and add
-        // them to cspro_apps table in database.
+        // spec file named package.csds. Extract this file and read
+        // the parameters from it and add them to cspro_apps table
+        // in database.
 
         $this->denyAccessUnlessGranted(AppsVoter::APPS_ALL);
         $contentLength = $request->headers->get('Content-Length');
@@ -126,11 +126,7 @@ class AppsController extends Controller implements ApiTokenAuthenticatedControll
             return $response;
         }
 
-        $appSpec = $zip->getFromName('package.json');
-        if (!$appSpec)
-            $appSpec = $zip->getFromName('package.csds');
-        $this->logger->debug('Found spec ' . $appSpec);
-
+        $appSpec = $zip->getFromName('package.csds');
         $zip->close();
 
         // Validate JSON spec file

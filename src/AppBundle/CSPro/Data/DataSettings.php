@@ -37,7 +37,7 @@ class DataSettings {
         $dataSetting['targetSchemaName'] = trim($dataSetting['targetSchemaName']);
         $dataSetting['dbPassword'] = trim($dataSetting['dbPassword']);
         if (strcasecmp($sourceDBName, $dataSetting['targetSchemaName']) == 0) {
-            throw new \Exception("Source database: $sourceDBName cannot be same as  Target database: " . $dataSetting['targetSchemaName']);
+            throw new Exception("Source database: $sourceDBName cannot be same as  Target database: " . $dataSetting['targetSchemaName']);
         }
         $connectionParams = array(
             'dbname' => $dataSetting['targetSchemaName'],

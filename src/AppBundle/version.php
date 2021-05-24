@@ -1,5 +1,5 @@
 <?php
 define('API_VERSION', '2.0'); // REST API version, incremented when REST endpoints/arguments changes
-define('SCHEMA_VERSION', 5); // Database schema version, incremented when database tables change ) (no change from 7.5 to 7.6)
-define('CSPRO_VERSION', '7.6.0')
+define('SCHEMA_VERSION', 5); // Database schema version, incremented when database tables change
+define('CSPRO_VERSION', '7.5.0')
 ?>
